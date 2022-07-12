@@ -4,10 +4,17 @@ import matplotlib.dates as mpl_dates
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from datetime import datetime
-import csv
 
-df= pd.read_csv("Dutch TTF Natural Gas Futures Historical Data.csv") #if reading csv file
-#df = pd.read_excel('HSI.xlsx', skiprows=[0]) #if reading excel file
+#Please check the raw data if the figures come with comma and the default nature of the value
+
+df = pd.read_csv('Hang Seng Futures Historical Data.csv') 
+
+df['Price'] = df['Price'].str.replace(',', '').astype(float)
+df['Open'] = df['Open'].str.replace(',', '').astype(float)
+df['High'] = df['High'].str.replace(',', '').astype(float)
+df['Low'] = df['Low'].str.replace(',', '').astype(float)
+
+print(df)
 
 #Check if NA values are in data
 df=df[df['Vol.']!=0]
@@ -36,7 +43,7 @@ def resistance(df1, l, n1, n2): #n1 n2 before and after candle L which is the ro
 sr = []
 n1=3 #3 candles before, user can change
 n2=2 #2 candles after, user can change
-for row in range(n1, 200): #len(df)-n2, up to user to choose range of candlesticks for testing, but need to be mindful for n1
+for row in range(n1, 240): #len(df)-n2, up to user to choose range of candlesticks for testing, but need to be mindful for n1
     if support(df, row, n1, n2):
         sr.append((row, df.Low[row],1))
     if resistance(df, row, n1, n2):
@@ -44,7 +51,7 @@ for row in range(n1, 200): #len(df)-n2, up to user to choose range of candlestic
 #print(sr)
 
 s = 0 #Start
-e = 200 #End
+e = 240 #End
 dfpl=df[s:e]
 
 fig = go.Figure(data=[go.Candlestick(x=dfpl.index,
@@ -72,9 +79,6 @@ plotlist2 = [x[1] for x in sr if x[2]==2]
 plotlist1.sort()
 plotlist2.sort()
 
-print(plotlist1)
-print(plotlist2)
-
 for i in range(1,len(plotlist1)):
     if(i>=len(plotlist1)):
         break
@@ -84,11 +88,11 @@ for i in range(1,len(plotlist1)):
 for i in range(1,len(plotlist2)):
     if(i>=len(plotlist2)):
         break
-    if abs(plotlist2[i]-plotlist2[i-1])<=0.005: #Distance between the candlesticks
+    if abs(plotlist1[i]-plotlist1[i-1])<=0.005: #Distance between the candlesticks
         plotlist2.pop(i)
 
 s = 0
-e = 200
+e = 240
 dfpl=df[s:e]
 
 fig = go.Figure(data=[go.Candlestick(x=dfpl.index,
@@ -159,15 +163,16 @@ while (1):
     fig.add_shape(type='line', x0=rr[c][0]-3, y0=rr[c][1],
                   x1=e,
                   y1=rr[c][1],
-                  line=dict(color="RoyalBlue", width=1)
+                  line=dict(color="Green", width=1)
                   )
     c+=1
 
-fig.show()
+#fig.show()
 rr_df = pd.DataFrame (rr, columns = ['Row Number', 'Resistance_Price'])
 ss_df = pd.DataFrame (ss, columns = ['Row Number', 'Support_Price'])
-df = rr_df.append(ss_df)
+df = pd.concat([rr_df,ss_df], axis =1)
+df.drop(columns='Row Number', inplace=True, axis =1)
+df.dropna()
 print(df)
 
-df.to_excel('DataPoints.xlsx', sheet_name='TTF')
 
