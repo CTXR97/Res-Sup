@@ -12,7 +12,7 @@ Therefore what the code aims to do is to identify these pivots and draw a suppor
 
 As there are many lines drawn and are pretty close to each other, part of the code will allow user to determine what is the user's comfortable range i.e difference between the 2 lines must be less than or equal to a certain value. Final results should be as follow:
 
-<img width="1142" alt="Screenshot 2022-07-10 at 11 02 11 PM" src="https://user-images.githubusercontent.com/107907500/178150421-562c6ad0-1f68-43d9-819c-34e359454e1f.png">
+![image](https://user-images.githubusercontent.com/107907500/178689473-06cfd79c-f900-4bf5-93f2-45d360785e8b.png)
 
 The final output also includes the specific numbers:
 
