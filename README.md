@@ -10,7 +10,9 @@ Therefore what the code aims to do is to identify these pivots and draw a suppor
 
 ![image](https://user-images.githubusercontent.com/107907500/178689620-3f647769-592d-4acf-a2d3-e3ff52b82c69.png)
 
-As there are many lines drawn and are pretty close to each other, part of the code will allow user to determine what is the user's comfortable range i.e difference between the 2 lines must be less than or equal to a certain value. Final results should be as follow:
+As there are many lines drawn and are pretty close to each other, part of the code will allow user to determine what is the user's comfortable range. The limitation for this is that it is NOT a cross 'reference' i.e user can only determine the comfortable range between two lines for support and resistance separately. This model is unable to compare the range between a line from support and a line from resistance. This is because the support and resistance prices are stored in two separate lists hence unable to do a cross comparison.
+
+Final results should be as follow:
 
 ![image](https://user-images.githubusercontent.com/107907500/178689473-06cfd79c-f900-4bf5-93f2-45d360785e8b.png)
 
