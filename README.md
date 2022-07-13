@@ -8,7 +8,7 @@ In theory, a fractal is a candlestick pattern made by 5 candles. The third candl
 
 Therefore what the code aims to do is to identify these pivots and draw a support and resistance. The first graph will end up like this:
 
-<img width="1139" alt="Screenshot 2022-07-11 at 8 51 33 PM" src="https://user-images.githubusercontent.com/107907500/178268311-7eacdf6c-0219-4f92-9a1b-307bb7f3bca5.png">
+![image](https://user-images.githubusercontent.com/107907500/178689620-3f647769-592d-4acf-a2d3-e3ff52b82c69.png)
 
 As there are many lines drawn and are pretty close to each other, part of the code will allow user to determine what is the user's comfortable range i.e difference between the 2 lines must be less than or equal to a certain value. Final results should be as follow:
 
