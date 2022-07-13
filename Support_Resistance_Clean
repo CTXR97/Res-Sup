@@ -1,0 +1,134 @@
+import pandas as pd
+import numpy as np
+import matplotlib.dates as mpl_dates
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+from datetime import datetime
+
+#Please check the raw data if the figures come with comma and the default nature of the value
+
+df = pd.read_excel('Test.xlsx', skiprows = 7) 
+df = df[['PX_LAST','PX_OPEN','PX_HIGH','PX_LOW']]
+df.rename(columns={'PX_LAST': 'Price', 'PX_OPEN': 'Open', 'PX_HIGH': 'High', 'PX_LOW': 'Low'}, inplace=True)
+
+#df = pd.read_csv('Hang Seng Futures Historical Data.csv') 
+#df['Price'] = df['Price'].str.replace(',', '').astype(float)
+#df['Open'] = df['Open'].str.replace(',', '').astype(float)
+#df['High'] = df['High'].str.replace(',', '').astype(float)
+#df['Low'] = df['Low'].str.replace(',', '').astype(float)
+
+#Check if NA values are in data
+#df=df[df['Vol.']!=0]
+df.reset_index(drop=True, inplace=True)
+df.isna().sum()
+df.tail()
+
+def support(df1, l, n1, n2): #n1 n2 before and after candle L
+    for i in range(l-n1+1, l+1):
+        if(df1.Low[i]>df1.Low[i-1]):
+            return 0
+    for i in range(l+1, l+n2+1):
+        if(df1.Low[i]<df1.Low[i-1]):
+            return 0
+    return 1
+
+def resistance(df1, l, n1, n2): #n1 n2 before and after candle L which is the row of the candlestick tested, n1 and n2 is number of candlesticks before and after
+    for i in range(l-n1+1, l+1):
+        if(df1.High[i]<df1.High[i-1]):
+            return 0
+    for i in range(l+1, l+n2+1):
+        if(df1.High[i]>df1.High[i-1]):
+            return 0
+    return 1
+    
+sr = []
+n1=3 #3 candles before, user can change
+n2=2 #2 candles after, user can change
+for row in range(n1, 240): #len(df)-n2, up to user to choose range of candlesticks for testing, but need to be mindful for n1
+    if support(df, row, n1, n2):
+        sr.append((row, df.Low[row],1))
+    if resistance(df, row, n1, n2):
+        sr.append((row,df.High[row],2))
+        
+s = 0 #Start
+e = 240 #End
+dfpl=df[s:e]
+
+fig = go.Figure(data=[go.Candlestick(x=dfpl.index,
+                                     open=dfpl['Open'],
+                                     high=dfpl['High'],
+                                     low=dfpl['Low'],
+                                     close=dfpl['Price'])])
+
+c = 0
+while (1):
+    if(c>len(sr)-1): #or sr[c][0]>e
+        break
+    fig.add_shape(type='line', x0=s, y0=sr[c][1],
+                  x1=e,
+                  y1=sr[c][1]
+                  ) #x0=sr[c][0]-5 x1=sr[c][0]+5
+    c+=1
+
+fig.show()
+
+
+#very close lines to plot as single line
+
+plotlist1 = [x[1] for x in sr if x[2]==1]
+plotlist2 = [x[1] for x in sr if x[2]==2]
+plotlist1.sort()
+plotlist2.sort()
+
+for i in range(1,len(plotlist1)):
+    if(i>=len(plotlist1)):
+        break
+    if abs(plotlist1[i]-plotlist1[i-1])<=2: #Distance between the candlesticks
+        plotlist1.pop(i)
+
+for i in range(1,len(plotlist2)):
+    if(i>=len(plotlist2)):
+        break
+    if abs(plotlist1[i]-plotlist1[i-1])<=2: #Distance between the candlesticks
+        plotlist2.pop(i)
+
+
+s = 0
+e = 240
+dfpl=df[s:e]
+
+fig = go.Figure(data=[go.Candlestick(x=dfpl.index,
+                                     open=dfpl['Open'],
+                                     high=dfpl['High'],
+                                     low=dfpl['Low'],
+                                     close=dfpl['Price'])])
+
+c = 0
+while (1):
+    if(c>len(plotlist1)-1 ): #or sr[c][0]>e
+        break
+    fig.add_shape(type='line', x0=s, y0=plotlist1[c],
+                  x1=e,
+                  y1=plotlist1[c],
+                  line=dict(color="MediumPurple", width=1)
+                  ) #x0=sr[c][0]-5 x1=sr[c][0]+5
+    c+=1
+
+c = 0
+while (1):
+    if(c>len(plotlist2)-1 ): #or sr[c][0]>e
+        break
+    fig.add_shape(type='line', x0=s, y0=plotlist2[c],
+                  x1=e,
+                  y1=plotlist2[c],
+                  line=dict(color="black", width=1)
+                  ) #x0=sr[c][0]-5 x1=sr[c][0]+5
+    c+=1
+
+fig.show()
+
+ss_df = pd.DataFrame(plotlist1, columns = ['Support_Price'])
+rr_df = pd.DataFrame(plotlist2, columns = ['Resistance_Price'])
+df = pd.concat([rr_df,ss_df], axis =1)
+df.dropna()
+print(df)
