@@ -10,7 +10,17 @@ Therefore what the code aims to do is to identify these pivots and draw a suppor
 
 ![image](https://user-images.githubusercontent.com/107907500/178689620-3f647769-592d-4acf-a2d3-e3ff52b82c69.png)
 
-As there are many lines drawn and are pretty close to each other, part of the code will allow user to determine what is the user's comfortable range. The limitation for this is that it is NOT a cross 'reference' i.e user can only determine the comfortable range between two lines for support and resistance separately. This model is unable to compare the range between a line from support and a line from resistance. This is because the support and resistance prices are stored in two separate lists hence unable to do a cross comparison.
+As there are many lines drawn and are pretty close to each other, part of the code will allow user to determine what is the user's 'comfortable' range between two lines. The limitation for this is that it does NOT provide a cross reference i.e user can only determine the 'comfortable' range between two prices within the list of support prices and list of resistance prices. This is because the support and resistance prices are stored in two separate lists hence unable to do a cross comparison. In addition, it is also notable that the comparison of prices within the list of support or resistance prices is in sequential order. 
+
+Potential Question: Can we store everything in one list and do the comparison? 
+Answer: Yes we can, but the final output will just be one list of data and we are unable to tell which price is a support and/or resistance.
+
+In addition, when doing a comparison between prices within the list of support or resistance prices, the model can only compare price[i] and price[i-1] in sequential order. It is unable to compare price[i] and price[i-5] because of indexing issue, which I do not see any work around for now. If criteria is met, model retains price[i-1] (the lower price). *[i] being the position of the price. 
+
+![image](https://user-images.githubusercontent.com/107907500/178859003-f65b1819-e082-48e6-babe-70ed5d1b24af.png)
+
+
+
 
 Final results should be as follow:
 
@@ -19,6 +29,8 @@ Final results should be as follow:
 The final output also includes the specific numbers:
 
 <img width="283" alt="Screenshot 2022-07-11 at 8 50 46 PM" src="https://user-images.githubusercontent.com/107907500/178268178-ae6cfd51-8d2f-433a-b6d9-bcad07243428.png">
+
+I also done a separate version whereby 
 
 Things to note with this model:
 1. The input data is very sensitive. As part of my backtest, I used the following:
