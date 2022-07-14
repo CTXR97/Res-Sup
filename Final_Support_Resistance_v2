@@ -141,3 +141,15 @@ df = pd.concat([rr_df,ss_df], axis =1)
 df.drop(columns=['Row Number','index'], inplace=True, axis =1)
 df.dropna()
 print(df)
+
+latest = pd.read_excel('Test.xlsx', skiprows = 7, columns = ["PX_LAST"]) 
+latest_price = latest['PX_LAST'].iloc[0]
+#print(latest_price)
+
+test = [x[1] for x in combined]
+#print(test)
+
+if latest_price in test:
+    print("hit")
+else:
+    print("no hit")
