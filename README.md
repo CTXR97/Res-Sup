@@ -13,14 +13,14 @@ Therefore what the code aims to do is to identify these pivots and draw a suppor
 As there are many lines drawn and are pretty close to each other, part of the code will allow user to determine what is the user's 'comfortable' range between two lines. 
 
 **Version 1:** User can choose to compare the difference between support/resistance prices respectively i.e within their own list.
+![image](https://user-images.githubusercontent.com/107907500/178868026-041ea18c-d65b-4c76-aa95-2bf6363b2de2.png)
 
-**Version 2:** User can choose to compare the difference between ALL prices i.e the entire universe. 
+**Version 2:** User can choose to compare the difference between ALL prices i.e the entire universe.
+![image](https://user-images.githubusercontent.com/107907500/178868078-8c022a20-853c-4fb7-8a6e-8e0ca0a3c5a7.png)
 
 **Question:** What is the difference between version 1 and 2?
 
 **Answer:** The results will be different because the comparison is in sequential order: [i] - [i-1] <= 'x' where 'x' is user-defined. By comparing within a list and comparing the entire universe, the order is different leading to different [i] and [i-1] prices so the final support and resistance prices will also be different. 
-
-![image](https://user-images.githubusercontent.com/107907500/178859003-f65b1819-e082-48e6-babe-70ed5d1b24af.png)
 
 Final results should be as follow:
 
