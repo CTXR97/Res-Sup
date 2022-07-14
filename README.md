@@ -8,7 +8,7 @@ In theory, a fractal is a candlestick pattern made by 5 candles. The third candl
 
 Therefore what the code aims to do is to identify these pivots and draw a support and resistance. The first graph will end up like this:
 
-![image](https://user-images.githubusercontent.com/107907500/178689620-3f647769-592d-4acf-a2d3-e3ff52b82c69.png)
+![image](https://user-images.githubusercontent.com/107907500/178862381-41ed4f22-30b9-40d2-921b-c396283d1aab.png)
 
 As there are many lines drawn and are pretty close to each other, part of the code will allow user to determine what is the user's 'comfortable' range between two lines. The limitation for this is that it does NOT provide a cross reference i.e user can only determine the 'comfortable' range between two prices within the list of support prices and list of resistance prices. This is because the support and resistance prices are stored in two separate lists hence unable to do a cross comparison. In addition, it is also notable that the comparison of prices within the list of support or resistance prices is in sequential order.
 
@@ -22,11 +22,11 @@ As there are many lines drawn and are pretty close to each other, part of the co
 
 Final results should be as follow:
 
-![image](https://user-images.githubusercontent.com/107907500/178689473-06cfd79c-f900-4bf5-93f2-45d360785e8b.png)
+![image](https://user-images.githubusercontent.com/107907500/178862411-e9db9f1b-3d78-4ec3-bb34-1491abfe067a.png)
 
 The final output also includes the specific numbers:
 
-<img width="283" alt="Screenshot 2022-07-11 at 8 50 46 PM" src="https://user-images.githubusercontent.com/107907500/178268178-ae6cfd51-8d2f-433a-b6d9-bcad07243428.png">
+![image](https://user-images.githubusercontent.com/107907500/178862422-3b7184fe-6014-4e2f-a69f-e3dc072223e6.png)
 
 Things to note with this model:
 1. The input data is very sensitive. As part of my backtest, I used the following:
