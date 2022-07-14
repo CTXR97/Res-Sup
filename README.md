@@ -10,13 +10,15 @@ Therefore what the code aims to do is to identify these pivots and draw a suppor
 
 ![image](https://user-images.githubusercontent.com/107907500/178862381-41ed4f22-30b9-40d2-921b-c396283d1aab.png)
 
-As there are many lines drawn and are pretty close to each other, part of the code will allow user to determine what is the user's 'comfortable' range between two lines. The limitation for this is that it does NOT provide a cross reference i.e user can only determine the 'comfortable' range between two prices within the list of support prices and list of resistance prices. This is because the support and resistance prices are stored in two separate lists hence unable to do a cross comparison. In addition, it is also notable that the comparison of prices within the list of support or resistance prices is in sequential order.
+As there are many lines drawn and are pretty close to each other, part of the code will allow user to determine what is the user's 'comfortable' range between two lines. 
 
-**Potential Question:** Can we store everything in one list and do the comparison?\n
-**Answer:** Yes we can, but the final output will just be one list of data because we will be unable to differentiate which prices are support and/or resistance. 
+**Version 1:** User can choose to compare the difference between support/resistance prices respectively i.e within their own list.
 
-**Potential Question:** If store everything in on list and do the comparison, is there difference in results?\n
-**Answer:** Yes this is because we are now comparing all values so when [i] - [i-1], its a different [i] and [i-1] as compared to when we are looking at individual lists. 
+**Version 2:** User can choose to compare the difference between ALL prices i.e the entire universe. 
+
+**Question:** What is the difference between version 1 and 2?
+
+**Answer:** The results will be different because the comparison is in sequential order: [i] - [i-1] <= 'x' where 'x' is user-defined. By comparing within a list and comparing the entire universe, the order is different leading to different [i] and [i-1] prices so the final support and resistance prices will also be different. 
 
 ![image](https://user-images.githubusercontent.com/107907500/178859003-f65b1819-e082-48e6-babe-70ed5d1b24af.png)
 
