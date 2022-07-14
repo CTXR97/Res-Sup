@@ -22,7 +22,7 @@ As there are many lines drawn and are pretty close to each other, part of the co
 
 Final results should be as follow:
 
-![image](https://user-images.githubusercontent.com/107907500/178862411-e9db9f1b-3d78-4ec3-bb34-1491abfe067a.png)
+![image](https://user-images.githubusercontent.com/107907500/178866554-8ae27a15-fe60-444e-ae4a-0204090cfb88.png)
 
 The final output also includes the specific numbers:
 
@@ -42,9 +42,3 @@ Results show that some modification/cleaning up of the data is required to fit t
 As seen from the codes, I tested on HSI as well (dirty data) and few modifications required. In such a scenario, just remove the '#' and add '#' to those irrelevant codes to run them. '#' means to change it to a text form so python will skip them. 
 
 2. Part of the code also includes the range of data to be tested. For example a data set with 262 days is expected to have 262 candles representing each day. However, user might choose a specific period to test for example day 0 to day 240 and this should be stated explicitly in the code. In addition, user have to take into account how many candle sticks before and after the pivot as the range for testing should exclude this number. For example, testing range 0 to 240, with 3 candlesticks before and 2 candlesticks after the pivot. The range should then be 3 to 238. 
-
-3. Another limitation of this model is that; 
-![image](https://user-images.githubusercontent.com/107907500/178861641-c7c43781-5146-4c06-b862-e6e32dae2378.png)
-
-The image above was supposedly my expected graph so that we can actually see where is the support/resistance price drawn from. However, in order to do this graph, it needs to be done by indexing but during the comparison between prices as mentioned earlier, this unique key (in this case is the row number) is removed in order to calculate the difference in prices. I tried adding the row number back after the comparison but doesn't seem to work. In my opinion, this shouldn't be much of an issue because it is a display limitation, user is expected to refer to the summary table instead for the specific prices. 
-
