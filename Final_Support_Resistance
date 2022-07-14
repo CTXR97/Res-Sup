@@ -23,33 +23,33 @@ df.reset_index(drop=True, inplace=True)
 df.isna().sum()
 df.tail()
 
-def support(df1, l, n1, n2): #n1 n2 before and after candle L
+def support(df, l, n1, n2): #n1 n2 before and after candle L
     for i in range(l-n1+1, l+1):
-        if(df1.Low[i]>df1.Low[i-1]):
+        if(df.Low[i]>df.Low[i-1]):
             return 0
     for i in range(l+1, l+n2+1):
-        if(df1.Low[i]<df1.Low[i-1]):
+        if(df.Low[i]<df.Low[i-1]):
             return 0
     return 1
 
-def resistance(df1, l, n1, n2): #n1 n2 before and after candle L which is the row of the candlestick tested, n1 and n2 is number of candlesticks before and after
+def resistance(df, l, n1, n2): #n1 n2 before and after candle L which is the row of the candlestick tested, n1 and n2 is number of candlesticks before and after
     for i in range(l-n1+1, l+1):
-        if(df1.High[i]<df1.High[i-1]):
+        if(df.High[i]<df.High[i-1]):
             return 0
     for i in range(l+1, l+n2+1):
-        if(df1.High[i]>df1.High[i-1]):
+        if(df.High[i]>df.High[i-1]):
             return 0
     return 1
     
 sr = []
 n1=3 #3 candles before, user can change
-n2=2 #2 candles after, user can change
+n2=3 #2 candles after, user can change
 for row in range(n1, 240): #len(df)-n2, up to user to choose range of candlesticks for testing, but need to be mindful for n1
     if support(df, row, n1, n2):
         sr.append((row, df.Low[row],1))
     if resistance(df, row, n1, n2):
         sr.append((row,df.High[row],2))
-        
+    
 s = 0 #Start
 e = 240 #End
 dfpl=df[s:e]
@@ -83,13 +83,13 @@ plotlist2.sort()
 for i in range(1,len(plotlist1)):
     if(i>=len(plotlist1)):
         break
-    if abs(plotlist1[i]-plotlist1[i-1])<=2: #Distance between the candlesticks
+    if abs(plotlist1[i]-plotlist1[i-1])<=3: #Distance between the candlesticks
         plotlist1.pop(i)
 
 for i in range(1,len(plotlist2)):
     if(i>=len(plotlist2)):
         break
-    if abs(plotlist1[i]-plotlist1[i-1])<=2: #Distance between the candlesticks
+    if abs(plotlist2[i]-plotlist2[i-1])<=2: #Distance between the candlesticks
         plotlist2.pop(i)
 
 
