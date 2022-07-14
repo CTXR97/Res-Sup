@@ -49,7 +49,7 @@ for row in range(n1, 240): #len(df)-n2, up to user to choose range of candlestic
         sr.append((row, df.Low[row],1))
     if resistance(df, row, n1, n2):
         sr.append((row,df.High[row],2))
-        
+ 
 s = 0 #Start
 e = 240 #End
 dfpl=df[s:e]
@@ -82,10 +82,28 @@ for i in range(1,len(plotlist)):
     if abs(plotlist[i]-plotlist[i-1])<=10: #Distance between the candlesticks
         plotlist.pop(i-1)
 
+combined=[]
+for i in (sr):
+    if i[1] in plotlist:
+        combined.append(i)
+        
+ss = []
+for i in combined:
+    if i[2] == 1:
+        ss.append(i)
+
+rr =[]
+for i in combined:
+    if i[2] == 2:
+        rr.append(i)
+
+
+print(rr)
+print(ss)
 
 s = 0
 e = 240
-dfpl=df[s:e]
+dfpl = df[s:e]
 
 fig = go.Figure(data=[go.Candlestick(x=dfpl.index,
                                      open=dfpl['Open'],
@@ -93,20 +111,33 @@ fig = go.Figure(data=[go.Candlestick(x=dfpl.index,
                                      low=dfpl['Low'],
                                      close=dfpl['Price'])])
 
-c = 0
+c=0
 while (1):
-    if(c>len(plotlist)-1 ): #or sr[c][0]>e
+    if(c>len(ss)-1 ):
         break
-    fig.add_shape(type='line', x0=s, y0=plotlist[c],
+    fig.add_shape(type='line', x0=ss[c][0]-3, y0=ss[c][1],
                   x1=e,
-                  y1=plotlist[c],
+                  y1=ss[c][1],
                   line=dict(color="MediumPurple", width=1)
-                  ) #x0=sr[c][0]-5 x1=sr[c][0]+5
+                  )
     c+=1
 
+c=0
+while (1):
+    if(c>len(rr)-1 ):
+        break
+    fig.add_shape(type='line', x0=rr[c][0]-3, y0=rr[c][1],
+                  x1=e,
+                  y1=rr[c][1],
+                  line=dict(color="black", width=1)
+                  )
+    c+=1
 
 fig.show()
 
-df = pd.DataFrame(plotlist, columns = ['Prices'])
+rr_df = pd.DataFrame (rr, columns = ['Row Number', 'Resistance_Price','index'])
+ss_df = pd.DataFrame (ss, columns = ['Row Number', 'Support_Price','index'])
+df = pd.concat([rr_df,ss_df], axis =1)
+df.drop(columns=['Row Number','index'], inplace=True, axis =1)
 df.dropna()
 print(df)
