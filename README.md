@@ -45,4 +45,4 @@ Results show that some modification/cleaning up of the data is required to fit t
 
 As seen from the codes, I tested on HSI as well (dirty data) and few modifications required. In such a scenario, just remove the '#' and add '#' to those irrelevant codes to run them. '#' means to change it to a text form so python will skip them. 
 
-2. Part of the code also includes the range of data to be tested. For example a data set with 262 days is expected to have 262 candles representing each day. However, user might choose a specific period to test for example day 0 to day 240 and this should be stated explicitly in the code. In addition, user have to take into account how many candle sticks before and after the pivot as the range for testing should exclude this number. For example, testing range 0 to 240, with 3 candlesticks before and 2 candlesticks after the pivot. The range should then be 3 to 238. 
+2. Part of the code also includes the range of data to be tested i.e to plot the candlesticks
