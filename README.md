@@ -47,4 +47,4 @@ As seen from the codes, I tested on HSI as well (dirty data) and few modificatio
 
 2. Part of the code also requires user to define the range of data to be tested based on the data input the user has chosen 
 
-3. The downside is that I cannot allow the model to draw trend lines. Reason is because of the model's structure. For example, a trend line requires a pivot identified by user. The pivot identified by user to draw the support and resistance could be different from a pivot in a trend line. Therefore unable to plot an accurate trend line. 
+3. The downside is that I cannot allow the model to draw trend lines. Reason is because of the model's structure. For example, a trend line requires a pivot identified by user. The pivot identified by user to draw the support and resistance could be different from a pivot in a trend line (difference in terms of prices as well as the position of the pivot). Therefore unable to plot an accurate trend line. 
