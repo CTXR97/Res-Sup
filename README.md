@@ -45,4 +45,6 @@ Results show that some modification/cleaning up of the data is required to fit t
 
 As seen from the codes, I tested on HSI as well (dirty data) and few modifications required. In such a scenario, just remove the '#' and add '#' to those irrelevant codes to run them. '#' means to change it to a text form so python will skip them. 
 
-2. Part of the code also includes the range of data to be tested i.e to plot the candlesticks
+2. Part of the code also requires user to define the range of data to be tested based on the data input the user has chosen 
+
+3. The downside is that I cannot allow the model to draw trend lines. Reason is because of the model's structure. For example, a trend line requires a pivot identified by user. The pivot identified by user to draw the support and resistance could be different from a pivot in a trend line. Therefore unable to plot an accurate trend line. 
