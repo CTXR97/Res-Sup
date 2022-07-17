@@ -1,0 +1,230 @@
+import pandas as pd
+import numpy as np
+import matplotlib.dates as mpl_dates
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+from datetime import datetime
+
+# Please check the raw data if the figures come with comma and the default nature of the value
+
+#df = pd.read_excel('Test.xlsx', skiprows=7)
+#df = df[['PX_LAST', 'PX_OPEN', 'PX_HIGH', 'PX_LOW']]
+#df.rename(columns={'PX_LAST': 'Price', 'PX_OPEN': 'Open', 'PX_HIGH': 'High', 'PX_LOW': 'Low'}, inplace=True)
+
+df = pd.read_csv('Dutch TTF Natural Gas Futures Historical Data.csv')
+#df['Price'] = df['Price'].str.replace(',', '').astype(float)
+#df['Open'] = df['Open'].str.replace(',', '').astype(float)
+#df['High'] = df['High'].str.replace(',', '').astype(float)
+#df['Low'] = df['Low'].str.replace(',', '').astype(float)
+
+# Check if NA values are in data
+df=df[df['Vol.']!=0]
+df.reset_index(drop=True, inplace=True)
+df.isna().sum()
+df.tail()
+
+def support(df1, l, n1, n2):  # n1 n2 before and after candle L
+    for i in range(l - n1 + 1, l + 1):
+        if (df1.Low[i] > df1.Low[i - 1]):
+            return 0
+    for i in range(l + 1, l + n2 + 1):
+        if (df1.Low[i] < df1.Low[i - 1]):
+            return 0
+    return 1
+
+
+def resistance(df1, l, n1,
+               n2):  # n1 n2 before and after candle L which is the row of the candlestick tested, n1 and n2 is number of candlesticks before and after
+    for i in range(l - n1 + 1, l + 1):
+        if (df1.High[i] < df1.High[i - 1]):
+            return 0
+    for i in range(l + 1, l + n2 + 1):
+        if (df1.High[i] > df1.High[i - 1]):
+            return 0
+    return 1
+
+
+sr = []
+n1 = 3  # 3 candles before, user can change
+n2 = 3  # 2 candles after, user can change
+for row in range(n1,
+                 240):  # len(df)-n2, up to user to choose range of candlesticks for testing, but need to be mindful for n1
+    if support(df, row, n1, n2):
+        sr.append((row, df.Low[row], 1))
+    if resistance(df, row, n1, n2):
+        sr.append((row, df.High[row], 2))
+
+s = 0  # Start
+e = 1000  # End
+dfpl = df[s:e]
+
+fig = go.Figure(data=[go.Candlestick(x=dfpl.index,
+                                     open=dfpl['Open'],
+                                     high=dfpl['High'],
+                                     low=dfpl['Low'],
+                                     close=dfpl['Price'])])
+
+c = 0
+while (1):
+    if (c > len(sr) - 1):  # or sr[c][0]>e
+        break
+    fig.add_shape(type='line', x0=s, y0=sr[c][1],
+                  x1=e,
+                  y1=sr[c][1]
+                  )  # x0=sr[c][0]-5 x1=sr[c][0]+5
+    c += 1
+
+#fig.show()
+
+plotlist = [x[1] for x in sr]
+plotlist.sort()
+
+for i in range(1, len(plotlist)):
+    if (i >= len(plotlist)):
+        break
+    if abs(plotlist[i] - plotlist[i - 1]) <= 10:  # Distance between the candlesticks
+        plotlist.pop(i - 1)
+
+combined = []
+for i in (sr):
+    if i[1] in plotlist:
+        combined.append(i)
+
+ss = []
+for i in combined:
+    if i[2] == 1:
+        ss.append(i)
+
+rr = []
+for i in combined:
+    if i[2] == 2:
+        rr.append(i)
+
+print(rr)
+print(ss)
+
+s = 0
+e = 240
+dfpl = df[s:e]
+
+fig = go.Figure(data=[go.Candlestick(x=dfpl.index,
+                                     open=dfpl['Open'],
+                                     high=dfpl['High'],
+                                     low=dfpl['Low'],
+                                     close=dfpl['Price'])])
+
+c = 0
+while (1):
+    if (c > len(ss) - 1):
+        break
+    fig.add_shape(type='line', x0=ss[c][0] - 3, y0=ss[c][1],
+                  x1=e,
+                  y1=ss[c][1],
+                  line=dict(color="MediumPurple", width=1)
+                  )
+    c += 1
+
+c = 0
+while (1):
+    if (c > len(rr) - 1):
+        break
+    fig.add_shape(type='line', x0=rr[c][0] - 3, y0=rr[c][1],
+                  x1=e,
+                  y1=rr[c][1],
+                  line=dict(color="black", width=1)
+                  )
+    c += 1
+
+#fig.show()
+
+rr_df = pd.DataFrame(rr, columns=['Row Number', 'Resistance_Price', 'index'])
+ss_df = pd.DataFrame(ss, columns=['Row Number', 'Support_Price', 'index'])
+summary = pd.concat([rr_df, ss_df], axis=1)
+summary.drop(columns=['Row Number', 'index'], inplace=True, axis=1)
+summary.dropna()
+print(summary)
+
+###############################################################
+
+backcandles= e
+wind = 20 #Parts of equal width
+candleid = e
+
+maxim = np.array([])
+minim = np.array([])
+xxmin = np.array([])
+xxmax = np.array([])
+for i in range(candleid-backcandles, candleid+1, wind):
+    minim = np.append(minim, df.Low.iloc[i:i+wind].min())
+    xxmin = np.append(xxmin, df.Low.iloc[i:i+wind].idxmin())
+for i in range(candleid-backcandles, candleid+1, wind):
+    maxim = np.append(maxim, df.High.loc[i:i+wind].max())
+    xxmax = np.append(xxmax, df.High.iloc[i:i+wind].idxmax())
+slmin, intercmin = np.polyfit(xxmin, minim,1)
+slmax, intercmax = np.polyfit(xxmax, maxim,1)
+
+#dfpl = df[candleid-backcandles:candleid+backcandles]
+#fig = go.Figure(data=[go.Candlestick(x=dfpl.index,
+#                open=dfpl['Open'],
+#                high=dfpl['High'],
+#                low=dfpl['Low'],
+#                close=dfpl['Price'])])
+fig.add_trace(go.Scatter(x=xxmin, y=slmin*xxmin + intercmin, mode='lines', name='min slope1'))
+fig.add_trace(go.Scatter(x=xxmax, y=slmax*xxmax + intercmax, mode='lines', name='max slope1'))
+
+slope1min = slmin*xxmin + intercmin
+slope1max = slmax*xxmax + intercmax
+
+# Fitting intercepts to meet highest or lowest candle point in time slice
+adjintercmin = df.Low.loc[candleid-backcandles:candleid].min() - slmin*df.Low.iloc[candleid-backcandles:candleid].idxmin()
+#to find the difference the min low and what is given by the slope calculated i.e the distance
+adjintercmax = df.High.loc[candleid-backcandles:candleid].max() - slmax*df.High.iloc[candleid-backcandles:candleid].idxmax()
+#to find the difference the max high and what is given by the slope calculated i.e the distance
+fig.add_trace(go.Scatter(x=xxmin, y=slmin*xxmin + adjintercmin, mode='lines', name='min slope2'))
+fig.add_trace(go.Scatter(x=xxmax, y=slmax*xxmax + adjintercmax, mode='lines', name='max slope2'))
+
+slope2min = slmin*xxmin + adjintercmin
+slope2max = slmax*xxmax + adjintercmax
+
+# Fitting intercepts to wrap price candles
+adjintercmax = (df.High.iloc[xxmax] - slmax*xxmax).max()
+#grab the max distance between the slope and the highest point i.e if there are higher points than slope, to readjust the slope
+adjintercmin = (df.Low.iloc[xxmin] - slmin*xxmin).min()
+#grab the max distance between the slope and the lowest point i.e if there are lower points than slope, to readjust the slope
+fig.add_trace(go.Scatter(x=xxmin, y=slmin*xxmin + adjintercmin, mode='lines', name='min slope3'))
+fig.add_trace(go.Scatter(x=xxmax, y=slmax*xxmax + adjintercmax, mode='lines', name='max slope3'))
+#fig.show()
+
+slope3min = slmin*xxmin + adjintercmin
+slope3max = slmax*xxmax + adjintercmax
+
+latest = pd.read_csv('Dutch TTF Natural Gas Futures Historical Data.csv')
+latest_price = latest['Price'].iloc[0]
+#print(latest_price)
+
+slope1min = np.around(slope1min, decimals=3, out=None).tolist()
+slope1max = np.around(slope1max, decimals=3, out=None).tolist()
+slope2min = np.around(slope2min, decimals=3, out=None).tolist()
+slope2max = np.around(slope2max, decimals=3, out=None).tolist()
+slope3min = np.around(slope3min, decimals=3, out=None).tolist()
+slope3max = np.around(slope3max, decimals=3, out=None).tolist()
+test = [x[1] for x in combined]
+
+total = slope1min + slope1max + slope2min + slope2max + slope3min + slope3max + test
+
+if latest_price in test:
+    print("hit")
+else:
+    print("no hit")
+
+#latest = pd.read_excel('Test.xlsx', skiprows=7, columns=["PX_LAST"])
+#latest_price = latest['PX_LAST'].iloc[0]
+# print(latest_price)
+
+#test = [x[1] for x in combined]
+# print(test)
+
+#if latest_price in test:
+#    print("hit")
+#else:
+#    print("no hit")
