@@ -62,5 +62,7 @@ As seen from the codes, I tested on HSI as well (dirty data) and few modificatio
 
 2. Part of the code also requires user to define the range of data to be tested based on the data input the user has chosen 
 
-3. For the trend lines, it is unable to take into account abnormality. For example, a sudden spike in prices might show a very huge range between support and resistance and by right, it is not recommended to trade within the huge range. This model is unable to take into account such issues and do a readjustment of the trend lines accordingly.
+3. For the trend lines, it is unable to take into account abnormality. For example, a sudden spike in prices might show a very huge range between support and resistance and by right, it is not recommended to trade within the huge range. This model is unable to take into account such issues and do a readjustment of the trend lines accordingly. 
+
+4. In addition to point3, the model also plots the trend lines of the specific range specified by the user. If we plot the trend lines of the entire dataset, it will show the general direction. In short, this model can be considered to be 'one-dimensional' i.e only one direction available at each time
 
