@@ -64,13 +64,4 @@ As seen from the codes, I tested on HSI as well (dirty data) and few modificatio
 
 3. For the trend lines, it is unable to take into account abnormality. For example, a sudden spike in prices might show a very huge range between support and resistance and by right, it is not recommended to trade within the huge range. This model is unable to take into account such issues and do a readjustment of the trend lines accordingly. 
 
-4. In addition to point3, the model also plots the trend lines of the specific range specified by the user. If we plot the trend lines of the entire dataset, it will show the general direction. In short, this model can be considered to be 'one-dimensional' i.e only one direction available at each time. As of now, I am unable to do a 'multi-directional' model. 
-
-In theory to build a multi-dimensional model, the steps are:
-
-1. Find all local minimas and maximas
-2. Draw lines between all of them
-3. Eliminate non trend lines
-4. Combine similiar trend lines
-5. Rate each trend lines by strength
-6. Eliminate weak lines 
+4. In addition to point3, the model also plots the trend lines of the specific range specified by the user. If we plot the trend lines of the entire dataset, it will show the general direction of this particular ticker. In short, this model can be considered to be 'one-dimensional' i.e only one direction available at each time. 
