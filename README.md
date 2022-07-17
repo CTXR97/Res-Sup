@@ -47,4 +47,5 @@ As seen from the codes, I tested on HSI as well (dirty data) and few modificatio
 
 2. Part of the code also requires user to define the range of data to be tested based on the data input the user has chosen 
 
-3. To add new structure to code to account for trend lines. Trend lines could not be plotted based on the existing structure. Workaround: build a separate structure on top of it and combine both together. Backtest required.
+3. To add new structure to code to account for trend lines. Trend lines could not be plotted based on the existing structure. Workaround: build a separate structure on top of it and combine both together. Backtest required. 
+http://www.meacse.org/ijcar/archives/128.pdf
