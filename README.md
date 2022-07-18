@@ -33,14 +33,16 @@ The final output also includes the specific numbers:
 ![image](https://user-images.githubusercontent.com/107907500/178862422-3b7184fe-6014-4e2f-a69f-e3dc072223e6.png)
 
 ***EDITED***
-Added a new structure to populate the trend lines. It works as such: By identifying position x and determining the backtest range as well as the intervals. Within each interval, to determine the high and low points
+
+Added a new structure to populate the trend lines. It works as such: By identifying position x and determining the backtest range as well as the intervals. Within each interval, to determine the high and low points. 
 
 <img width="343" alt="Screenshot 2022-07-17 at 1 28 35 PM" src="https://user-images.githubusercontent.com/107907500/179385238-aa95ee52-a73f-46e4-9da4-975eeb5f0df9.png">
 
-Once this is determined, the codes will plot a best fit line through all the lows and highs respectively. 
+Once this is determined, the codes will plot a best fit line through all the lows and highs respectively. Therefore we can say that the trendline is populated not based on a linear equation but sets of high and lows and the system will plot a best fit line based on those information. 
 However, this is still not very accurate therefore, the strategy is to do the following:
 
 1. To find the difference between the plotted slope as well as the identified high or low and readjust the trend line.
+
 2. After which, there could still be high and lows above the readjusted trend line, so the code takes into account this issue and does another readjustment. 
 
 The final graph will end up like this:
@@ -62,6 +64,7 @@ As seen from the codes, I tested on HSI as well (dirty data) and few modificatio
 
 2. Part of the code also requires user to define the range of data to be tested based on the data input the user has chosen 
 
-3. For the trend lines, it is unable to take into account abnormality. For example, a sudden spike in prices might show a very huge range between support and resistance and by right, it is not recommended to trade within the huge range. This model is unable to take into account such issues and do a readjustment of the trend lines accordingly. 
+3. The model plots the trend lines of the specific range specified by the user. If we plot the trend lines of the entire dataset, it will show the general direction of this particular ticker. In short, this model can be considered to be 'one-dimensional' i.e only one direction available at each time. 
 
-4. In addition to point3, the model also plots the trend lines of the specific range specified by the user. If we plot the trend lines of the entire dataset, it will show the general direction of this particular ticker. In short, this model can be considered to be 'one-dimensional' i.e only one direction available at each time. 
+4. For the trend lines, it is unable to take into account abnormality. For example, a sudden spike in prices might show a very huge range between support and resistance and by right, it is not recommended to trade within the huge range. This model is unable to take into account such issues and do a readjustment of the trend lines accordingly. 
+
