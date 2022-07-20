@@ -58,9 +58,11 @@ Things to note with this model:
  
 Results show that some modification/cleaning up of the data is required to fit the code structure. By default, I used **TTFG1MON SPEC Index** from bloomberg as the default file hence the codes will take it as the base. (Assuming in the future all data is drawn from bloomberg, I do not foresee any issues with this)
 
-![image](https://user-images.githubusercontent.com/107907500/178708618-d41c5440-1608-473f-8c1f-0e3e7c920b55.png)
+![image](https://user-images.githubusercontent.com/107907500/179954770-ae293878-e76f-4e3a-9674-831ed5361fd9.png)
 
-As seen from the codes, I tested on HSI as well (dirty data) and few modifications required. In such a scenario, just remove the '#' and add '#' to those irrelevant codes to run them. '#' means to change it to a text form so python will skip them. 
+**EDIT** 
+
+I've gotten the Intraday data from Bloomberg - it is in an excel form and it comes with limitation on how far back is the data. Bloomberg also added that if we are looking for specific intraday data on any specific ticker, to contact them for it. 
 
 2. Part of the code also requires user to define the range of data to be tested based on the data input the user has chosen 
 
