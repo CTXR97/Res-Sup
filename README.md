@@ -50,19 +50,17 @@ The final graph will end up like this:
 <img width="1175" alt="Screenshot 2022-07-17 at 1 33 46 PM" src="https://user-images.githubusercontent.com/107907500/179385323-787b3cd2-3255-411c-9802-9d7b2e00d9a8.png">
 
 Things to note with this model:
-1. The input data is very sensitive. As part of my backtest, I used the following:
-  a. CSV file with 'dirty' numbers i.e values with commas.
-  b. CSV with clean numbers
-  c. xslx file with clean numbers.
-  d. xslx file with 'dirty' numbers.
- 
-Results show that some modification/cleaning up of the data is required to fit the code structure. By default, I used **TTFG1MON SPEC Index** from bloomberg as the default file hence the codes will take it as the base. (Assuming in the future all data is drawn from bloomberg, I do not foresee any issues with this)
+1. I have done several input formats as per screenshot below. 
 
+Based on each input file, there are modifications to be made i.e to clean up the file structure to make it into something the python codeis able to read. 
+
+  a. The first modification done: I've gotten the Intraday data from Bloomberg - it is in an excel form and it comes with limitation on how far back is the data.         Bloomberg also added that if we     are looking for specific intraday data on any specific ticker, to contact them for it.
+  
+  b. The second modification done: The daily timeframe data from Bloomberg. 
+  
+  c. The third modification done: HSI Data from some random source. The data from this source is very messy and it came with commas. Hence need to clean them up 
+  
 ![image](https://user-images.githubusercontent.com/107907500/179954770-ae293878-e76f-4e3a-9674-831ed5361fd9.png)
-
-**EDIT** 
-
-I've gotten the Intraday data from Bloomberg - it is in an excel form and it comes with limitation on how far back is the data. Bloomberg also added that if we are looking for specific intraday data on any specific ticker, to contact them for it. 
 
 2. Part of the code also requires user to define the range of data to be tested based on the data input the user has chosen 
 
